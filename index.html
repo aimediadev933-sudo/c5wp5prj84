@@ -1,1 +1,979 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CompBio Asia - Cross-Disciplinary Training for Future Computational Biologists</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        :root {
+            --primary: #EF5350;
+            --secondary: #FF7043;
+            --body: #F8F3F0;
+            --text: #1D1D1B;
+            --secondary-dark: #9C3A26;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: var(--body);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--white);
+            padding: 20px 0;
+            box-shadow: 0 2px 20px rgba(239, 83, 80, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            animation: float 8s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-25px) rotate(180deg); }
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .logo-section img {
+            height: 60px;
+            width: auto;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 10px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo-section img:hover {
+            transform: scale(1.1) translateY(-3px);
+            background: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .project-title {
+            text-align: right;
+            flex-grow: 1;
+            margin-left: 40px;
+        }
+
+        .project-title h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .project-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        /* Navigation */
+        nav {
+            background-color: var(--secondary-dark);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(156, 58, 38, 0.3);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 35px;
+        }
+
+        nav a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        nav a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        nav a:hover::before {
+            left: 100%;
+        }
+
+        nav a:hover {
+            background-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(239, 83, 80, 0.4);
+        }
+
+        /* Main Content */
+        main {
+            padding: 60px 0;
+        }
+
+        .section {
+            margin-bottom: 80px;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 30px;
+            text-align: center;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+
+        /* Overview Section */
+        .overview-content {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(239, 83, 80, 0.1);
+            border: 2px solid rgba(239, 83, 80, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .overview-content:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 60px rgba(239, 83, 80, 0.2);
+        }
+
+        .overview-content p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            text-align: justify;
+        }
+
+        /* Workshops Section */
+        .workshops-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .workshop-card {
+            background: var(--white);
+            padding: 35px;
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(239, 83, 80, 0.1);
+            transition: all 0.3s ease;
+            border-top: 5px solid var(--primary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .workshop-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(239, 83, 80, 0.05) 0%, transparent 70%);
+            transition: all 0.3s ease;
+        }
+
+        .workshop-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 45px rgba(239, 83, 80, 0.2);
+            border-top-width: 8px;
+        }
+
+        .workshop-card:hover::before {
+            top: -20%;
+            right: -20%;
+        }
+
+        .workshop-card h3 {
+            color: var(--secondary-dark);
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .workshop-details {
+            position: relative;
+            z-index: 2;
+        }
+
+        .workshop-detail-item {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(239, 83, 80, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .workshop-detail-item strong {
+            color: var(--primary);
+        }
+
+        /* Statistics Section */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--white);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            animation: pulse 6s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.1) rotate(180deg); }
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 20px 50px rgba(239, 83, 80, 0.3);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Partners Section */
+        .partners-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .partner-card {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(239, 83, 80, 0.1);
+            transition: all 0.3s ease;
+            border-left: 5px solid var(--secondary);
+        }
+
+        .partner-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 45px rgba(239, 83, 80, 0.2);
+            border-left-color: var(--primary);
+        }
+
+        .partner-card h3 {
+            color: var(--secondary-dark);
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+        }
+
+        .partner-list {
+            list-style: none;
+        }
+
+        .partner-list li {
+            padding: 5px 0;
+            transition: color 0.3s ease;
+        }
+
+        .partner-list li:hover {
+            color: var(--primary);
+            padding-left: 10px;
+        }
+
+        /* Activities Section */
+        .activities-timeline {
+            position: relative;
+            margin-top: 40px;
+            padding-left: 30px;
+        }
+
+        .activities-timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+
+        .activity-item {
+            background: var(--white);
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            position: relative;
+            box-shadow: 0 5px 20px rgba(239, 83, 80, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .activity-item::before {
+            content: '';
+            position: absolute;
+            left: -37px;
+            top: 25px;
+            width: 12px;
+            height: 12px;
+            background: var(--primary);
+            border-radius: 50%;
+            border: 3px solid var(--white);
+            box-shadow: 0 0 0 3px var(--primary);
+        }
+
+        .activity-item:hover {
+            transform: translateX(10px);
+            box-shadow: 0 10px 30px rgba(239, 83, 80, 0.2);
+        }
+
+        .activity-item h4 {
+            color: var(--primary);
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        /* SDGs Section */
+        .sdg-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .sdg-card {
+            background: linear-gradient(135deg, var(--secondary-dark), var(--primary));
+            color: var(--white);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sdg-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            animation: rotate 15s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .sdg-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 20px 50px rgba(156, 58, 38, 0.3);
+        }
+
+        .sdg-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .sdg-card p {
+            position: relative;
+            z-index: 2;
+            opacity: 0.9;
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, var(--secondary-dark), var(--primary));
+            color: var(--white);
+            text-align: center;
+            padding: 40px 0;
+            margin-top: 80px;
+        }
+
+        footer p {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .project-meta {
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 30px;
+                text-align: center;
+            }
+
+            .logo-section {
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 20px;
+            }
+
+            .logo-section img {
+                height: 50px;
+                background: rgba(255, 255, 255, 0.2);
+                padding: 8px;
+                border-radius: 10px;
+            }
+
+            .project-title {
+                text-align: center;
+                margin-left: 0;
+            }
+
+            .project-title h1 {
+                font-size: 2rem;
+            }
+
+            nav ul {
+                gap: 20px;
+            }
+
+            nav a {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .activities-timeline {
+                padding-left: 20px;
+            }
+
+            .activities-timeline::before {
+                left: 10px;
+            }
+
+            .activity-item::before {
+                left: -32px;
+            }
+
+            .container {
+                padding: 0 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .project-title h1 {
+                font-size: 1.6rem;
+            }
+
+            .project-subtitle {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .logo-section img {
+                height: 45px;
+                padding: 6px;
+            }
+
+            .stat-number {
+                font-size: 2rem;
+            }
+
+            .workshops-grid,
+            .partners-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Loading animation */
+        .fade-in {
+            animation: fadeIn 0.8s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <img src="images/logos/asia-connect-logo.png" alt="Asia Connect Logo">
+                    <img src="images/logos/eu-logo.png" alt="EU Logo">
+                    <img src="images/logos/tein-logo.png" alt="TEIN Logo">
+                </div>
+                <div class="project-title">
+                    <h1>CompBio Asia</h1>
+                    <div class="project-subtitle">Cross-Disciplinary Training for Future Computational Biologists in Asia</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="#overview">Overview</a></li>
+                <li><a href="#workshops">Workshops</a></li>
+                <li><a href="#statistics">Statistics</a></li>
+                <li><a href="#partners">Partners</a></li>
+                <li><a href="#activities">Activities</a></li>
+                <li><a href="#sdgs">SDGs</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <div class="container">
+            <section id="overview" class="section fade-in">
+                <h2 class="section-title">Project Overview</h2>
+                <div class="overview-content">
+                    <p>This project aimed to establish a sustainable computational biology culture in Asia by providing hands-on training, HPC access, and international networking through the "CompBio Asia" Advanced Studies Institute (ASI) and two satellite workshops in Indonesia and Bangladesh. The training model, derived from a similar NSF-funded initiative in the U.S., offered 90+ hours of formal and informal instruction in bioinformatics and computational biology to postgraduate and undergraduate students from TEIN beneficiary countries.</p>
+                    
+                    <p style="margin-top: 20px;">High priority was given to participants from LDCs and to gender equity, targeting 50% female representation. Students continued their research after the events using TEIN network-supported access to international HPC facilities. This model fostered collaboration, upskilled regional talent, and demonstrated potential for replication and long-term sustainability across Asia.</p>
+                </div>
+            </section>
+
+            <section id="workshops" class="section">
+                <h2 class="section-title">Training Workshops</h2>
+                <div class="workshops-grid">
+                    <div class="workshop-card">
+                        <h3>🇹🇭 CompBio Asia (Thailand)</h3>
+                        <div class="workshop-details">
+                            <div class="workshop-detail-item">
+                                <span><strong>Date:</strong></span>
+                                <span>June 12-24, 2022</span>
+                            </div>
+                            <div class="workshop-detail-item">
+                                <span><strong>Duration:</strong></span>
+                                <span>90+ hours of training</span>
+                            </div>
+                            <div class="workshop-detail-item">
+                                <span><strong>Female Participation:</strong></span>
+                                <span>50%</span>
+                            </div>
+                            <div class="workshop-detail-item">
+                                <span><strong>Features:</strong></span>
+                                <span>Lectures, hands-on sessions, Slack community</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="workshop-card">
+                        <h3>🇮🇩 Indonesia Bioinformatics</h3>
+                        <div class="workshop-details">
+                            <div class="workshop-detail-item">
+                                <span><strong>Date:</strong></span>
+                                <span>January 2023</span>
+                            </div>
+                            <div class="workshop-detail-item">
+                                <span><strong>Participants:</strong></span>
+                                <span>52 students</span>
+                            </div>
+                            <div class="workshop-detail-item">
+                                <span><strong>Female Participation:</strong></span>
+                                <span>60%</span>
+                            </div>
+                            <div class="workshop-detail-item">
+                                <span><strong>Focus:</strong></span>
+                                <span>Genomics, biodiversity, proteomics, drug discovery</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="workshop-card">
+                        <h3>🇧🇩 CompBio Bangladesh</h3>
+                        <div class="workshop-details">
+                            <div class="workshop-detail-item">
+                                <span><strong>Date:</strong></span>
+                                <span>February 2023</span>
+                            </div>
+                            <div class="workshop-detail-item">
+                                <span><strong>Format:</strong></span>
+                                <span>Hybrid (in-person + Zoom)</span>
+                            </div>
+                            <div class="workshop-detail-item">
+                                <span><strong>Female Participation:</strong></span>
+                                <span>33%</span>
+                            </div>
+                            <div class="workshop-detail-item">
+                                <span><strong>Training:</strong></span>
+                                <span>OSC HPC, local & international instructors</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="statistics" class="section">
+                <h2 class="section-title">Key Statistics</h2>
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-number">93+</div>
+                        <div class="stat-label">Students Trained</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">12+</div>
+                        <div class="stat-label">Countries Involved</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">34,608</div>
+                        <div class="stat-label">CPU Hours Used</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">69+</div>
+                        <div class="stat-label">Research Projects</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label">Recommendation Rate</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">50%</div>
+                        <div class="stat-label">Target Female Participation</div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="partners" class="section">
+                <h2 class="section-title">Partner Organizations</h2>
+                <div class="partners-grid">
+                    <div class="partner-card">
+                        <h3>Lead & Academic Partners</h3>
+                        <ul class="partner-list">
+                            <li>University Putra Malaysia (Lead)</li>
+                            <li>University of Montana, USA</li>
+                            <li>Perdana University, Malaysia</li>
+                            <li>University of Dhaka, Bangladesh</li>
+                            <li>University of Nottingham, UK</li>
+                        </ul>
+                    </div>
+                    <div class="partner-card">
+                        <h3>Research Institutions</h3>
+                        <ul class="partner-list">
+                            <li>Bezmialem Vakif University, Turkey</li>
+                            <li>Bose Institute, India</li>
+                            <li>A*STAR Bioinformatics Center, Singapore</li>
+                            <li>National Biobank of Thailand</li>
+                            <li>Nusantara Plantation Research, Indonesia</li>
+                        </ul>
+                    </div>
+                    <div class="partner-card">
+                        <h3>Beneficiary Countries</h3>
+                        <ul class="partner-list">
+                            <li>🇲🇾 Malaysia</li>
+                            <li>🇧🇩 Bangladesh</li>
+                            <li>🇮🇳 India</li>
+                            <li>🇧🇹 Bhutan</li>
+                            <li>🇱🇰 Sri Lanka</li>
+                            <li>🇵🇰 Pakistan</li>
+                            <li>🇳🇵 Nepal</li>
+                            <li>🇰🇭 Cambodia</li>
+                            <li>🇱🇦 Laos</li>
+                            <li>🇹🇭 Thailand</li>
+                            <li>🇻🇳 Vietnam</li>
+                            <li>🇮🇩 Indonesia</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="activities" class="section">
+                <h2 class="section-title">Project Activities</h2>
+                <div class="activities-timeline">
+                    <div class="activity-item">
+                        <h4>HPC Provisioning</h4>
+                        <p>402,000 CPU hours offered via University of Montana and NSCC Singapore. 34,608 CPU hours utilized during the project duration for computational biology research.</p>
+                    </div>
+                    <div class="activity-item">
+                        <h4>Curriculum Development</h4>
+                        <p>Instruction modules and website development by independent experts. All materials made available online at compbioasia.org for continued learning.</p>
+                    </div>
+                    <div class="activity-item">
+                        <h4>Network Building</h4>
+                        <p>Established Slack community for ongoing collaboration and mentorship. Follow-up workshops like CompBio Asia 2023 in Singapore maintained momentum.</p>
+                    </div>
+                    <div class="activity-item">
+                        <h4>Quality Assessment</h4>
+                        <p>Comprehensive feedback collection through participant surveys. Achieved 100% recommendation rate across all workshops.</p>
+                    </div>
+                    <div class="activity-item">
+                        <h4>Capacity Building</h4>
+                        <p>Trained regional champions expected to mentor and organize future Advanced Studies Institutes across Asia.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="sdgs" class="section">
+                <h2 class="section-title">Sustainable Development Goals</h2>
+                <div class="sdg-container">
+                    <div class="sdg-card">
+                        <h3>SDG 4</h3>
+                        <p>Quality Education - Providing advanced computational biology training and HPC access across Asia</p>
+                    </div>
+                    <div class="sdg-card">
+                        <h3>SDG 5</h3>
+                        <p>Gender Equality - Targeting 50% female participation and promoting women in STEM fields</p>
+                    </div>
+                    <div class="sdg-card">
+                        <h3>SDG 9</h3>
+                        <p>Industry, Innovation, and Infrastructure - Building computational research capacity and HPC networks</p>
+                    </div>
+                    <div class="sdg-card">
+                        <h3>SDG 17</h3>
+                        <p>Partnerships for the Goals - Fostering international collaboration in computational biology</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p><strong>CompBio Asia Project</strong></p>
+            <div class="project-meta">
+                <p>WP5 Category | 5th Call | Cross-Disciplinary Training for Future Computational Biologists in Asia</p>
+                <p>Advancing Computational Biology Education Through International Collaboration</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Add fade-in animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                targetSection.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            });
+        });
+
+        // Add image loading optimization
+        document.querySelectorAll('img').forEach(img => {
+            img.addEventListener('load', function() {
+                this.style.opacity = '1';
+                this.style.transform = 'scale(1)';
+            });
+            
+            img.addEventListener('error', function() {
+                this.style.opacity = '0.5';
+                this.alt = 'Logo not found';
+            });
+            
+            img.style.opacity = '0';
+            img.style.transform = 'scale(0.95)';
+            img.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        });
+
+        // Statistics counter animation
+        function animateCounters() {
+            const counters = document.querySelectorAll('.stat-number');
+            
+            counters.forEach(counter => {
+                const target = counter.textContent;
+                const numericValue = parseInt(target.replace(/[^\d]/g, ''));
+                
+                if (numericValue > 0) {
+                    counter.textContent = '0';
+                    const increment = numericValue / 50;
+                    let current = 0;
+                    
+                    const timer = setInterval(() => {
+                        current += increment;
+                        if (current >= numericValue) {
+                            counter.textContent = target;
+                            clearInterval(timer);
+                        } else {
+                            if (target.includes('%')) {
+                                counter.textContent = Math.floor(current) + '%';
+                            } else if (target.includes(',')) {
+                                counter.textContent = Math.floor(current).toLocaleString();
+                            } else if (target.includes('+')) {
+                                counter.textContent = Math.floor(current) + '+';
+                            } else {
+                                counter.textContent = Math.floor(current);
+                            }
+                        }
+                    }, 50);
+                }
+            });
+        }
+
+        // Trigger counter animation when statistics section is visible
+        const statsObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounters();
+                    statsObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        const statsSection = document.getElementById('statistics');
+        if (statsSection) {
+            statsObserver.observe(statsSection);
+        }
+
+        // Add hover effect for workshop cards
+        document.querySelectorAll('.workshop-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.borderTopColor = 'var(--secondary)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.borderTopColor = 'var(--primary)';
+            });
+        });
+
+        // Timeline animation
+        const timelineObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateX(0)';
+                }
+            });
+        }, { threshold: 0.3 });
+
+        document.querySelectorAll('.activity-item').forEach((item, index) => {
+            item.style.opacity = '0';
+            item.style.transform = 'translateX(-50px)';
+            item.style.transition = `opacity 0.6s ease ${index * 0.2}s, transform 0.6s ease ${index * 0.2}s`;
+            timelineObserver.observe(item);
+        });
+    </script>
+</body>
+</html>
